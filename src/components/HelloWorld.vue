@@ -35,6 +35,15 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  async mounted() {
+    const ethers = this.$ethers;
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    const block = await provider.getBlockNumber()
+
+    console.log(block);
   }
 }
 </script>
