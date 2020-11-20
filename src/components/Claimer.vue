@@ -6,11 +6,18 @@
 
 <script>
 import allAccountProofs from '../assets/account_proofs.json'
+import minterABI from '../assets/Minter.json'
 
+// NOTE: may want to move this somewhere else, but this is fine for now
+const minterAddress = '0xd947d16ca291c4d444293da56332820bd8e32a81'
+
+// NOTE: 'accountProofs' is a map of the structure account -> [{name, sig, index, count, proof}...]
 export default {
   name: 'Claimer',
   data() {
     return {
+      minterContract: {},
+
       allAccountProofs: allAccountProofs,
       authorizedAccountProofs: []
     }
@@ -20,8 +27,11 @@ export default {
     const ethers = this.$ethers;
     const provider = new ethers.providers.Web3Provider(window.web3.currentProvider);
 
-    const accounts = await provider.listAccounts()
+    // Initialize Minter contract object
+    this.minterContract = new ethers.Contract(minterAddress, minterABI['abi'], provider)
 
+    // Initialize authorizedAccountProofs based on accounts retrieved from ethers
+    const accounts = await provider.listAccounts()
     this.authorizedAccountProofs = {};
     for (let account of accounts) {
       this.authorizedAccountProofs[account] = this.allAccountProofs[account]
