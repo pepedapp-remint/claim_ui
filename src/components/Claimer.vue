@@ -1,12 +1,17 @@
 <template>
   <div class="hello">
-    <h1>{{ authorizedAccountProofs }}</h1>
+    <h1>Wrapped Pepes</h1>
+
+    <v-select v-model="selected" label="name" :options="claimables"></v-select>
+
+    <h3>{{ selected }}</h3>
   </div>
 </template>
 
 <script>
 import allAccountProofs from '../assets/account_proofs.json'
 import minterABI from '../assets/Minter.json'
+import cardMetadata from '../assets/card_metadata.json'
 
 // NOTE: may want to move this somewhere else, but this is fine for now
 const minterAddress = '0xd947d16ca291c4d444293da56332820bd8e32a81'
@@ -18,8 +23,9 @@ export default {
     return {
       minterContract: {},
 
-      allAccountProofs: allAccountProofs,
-      authorizedAccountProofs: []
+      claimables: [], // catch-all objects that contain all info necessary to claim/view option
+
+      selected: null
     }
   },
   async mounted() {
@@ -30,11 +36,22 @@ export default {
     // Initialize Minter contract object
     this.minterContract = new ethers.Contract(minterAddress, minterABI['abi'], provider)
 
-    // Initialize authorizedAccountProofs based on accounts retrieved from ethers
+    // Create sig to name
+    const sigToName = {}
+    for (let card of cardMetadata) {
+      sigToName[card['sig']] = card['name']
+    }
+
+    // Initialize claimables based on accounts retrieved from ethers
+    this.claimables = []
     const accounts = await provider.listAccounts()
-    this.authorizedAccountProofs = {};
     for (let account of accounts) {
-      this.authorizedAccountProofs[account] = this.allAccountProofs[account]
+
+      for (let proof of allAccountProofs[account]) {
+        this.claimables.push(
+          Object.assign(proof, {'account': account, 'name': sigToName[proof['sig']]})
+        )
+      }
     }
   }
 }
@@ -44,16 +61,5 @@ export default {
 <style scoped>
 h3 {
   margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 </style>
