@@ -11,6 +11,7 @@
     "core-js": "^3.6.5",
     "ethers": "5.0.20",
     "vue": "^2.6.11",
+    "vue-grid-layout": "2.3.11",
     "vue-select": "3.10.8"
   },
   "devDependencies": {

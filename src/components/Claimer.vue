@@ -2,10 +2,34 @@
   <div class="hello">
     <h1>Wrapped Pepes</h1>
 
-    <v-select v-model="selected" label="name" :options="claimables"></v-select>
-    <button :disabled="selected == null" v-on:click="claim">Claim</button>
+    <div id="claimer">
+      <grid-layout
+        :layout="claimGridLayout"
+        :rowHeight="10"
+        :isResizable=false
+        :isDraggable=false
+        >
+        <grid-item
+          :i="claimGridLayout[0]['i']"
+          :x=0
+          :y=0
+          :w=5
+          :h=1>
+          <v-select v-model="selected" label="name" :options="claimables"></v-select>
+        </grid-item>
 
-    <!-- <p>Insert description</p> -->
+        <grid-item
+          :i=1
+          :x=5
+          :y=0
+          :w=7
+          :h=1>
+          <button :disabled="selected == null" v-on:click="claim">Claim</button>
+        </grid-item>
+      </grid-layout>
+    </div>
+
+    <p>Insert description</p>
   </div>
 </template>
 
@@ -22,6 +46,23 @@ export default {
   name: 'Claimer',
   data() {
     return {
+      claimGridLayout: [
+        {
+          'i': 0,
+          'x': 0,
+          'y': 0,
+          'w': 8,
+          'h': 1
+        },
+        {
+          'i': 1,
+          'x': 1,
+          'y': 0,
+          'w': 4,
+          'h': 1
+        }
+      ],
+
       minterContract: {},
       provider: {},
 
@@ -81,7 +122,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+#claimer {
+  margin: auto;
+  width: 500px
 }
 </style>
