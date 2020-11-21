@@ -5,7 +5,7 @@
     <v-select v-model="selected" label="name" :options="claimables"></v-select>
     <button :disabled="selected == null" v-on:click="claim">Claim</button>
 
-    <!-- <p>{{ selected }}</p> -->
+    <!-- <p>Insert description</p> -->
   </div>
 </template>
 
@@ -23,6 +23,7 @@ export default {
   data() {
     return {
       minterContract: {},
+      provider: {},
 
       claimables: [], // catch-all objects that contain all info necessary to claim/view option
 
@@ -30,17 +31,27 @@ export default {
     }
   },
   methods: {
-    claim() {
-      console.log(this.selected)
+    claim: async function() {
+      const signer = this.provider.getSigner(this.selected['account']);
+      const connectedMinter = this.minterContract.connect(signer);
+
+      console.log(`Submitting claim tx for ${this.selected}`)
+      await connectedMinter.claim(
+        this.selected['index'],
+        this.selected['sig'],
+        this.selected['account'],
+        this.selected['count'],
+        this.selected['proof']
+      )
     }
   },
   async mounted() {
     await window.ethereum.enable();
     const ethers = this.$ethers;
-    const provider = new ethers.providers.Web3Provider(window.web3.currentProvider);
+    this.provider = new ethers.providers.Web3Provider(window.web3.currentProvider);
 
     // Initialize Minter contract object
-    this.minterContract = new ethers.Contract(minterAddress, minterABI['abi'], provider)
+    this.minterContract = new ethers.Contract(minterAddress, minterABI['abi'], this.provider)
 
     // Create sig to name
     const sigToName = {}
@@ -50,13 +61,18 @@ export default {
 
     // Initialize claimables based on accounts retrieved from ethers
     this.claimables = []
-    const accounts = await provider.listAccounts()
+    const accounts = await this.provider.listAccounts()
     for (let account of accounts) {
 
       for (let proof of allAccountProofs[account]) {
-        this.claimables.push(
-          Object.assign(proof, {'account': account, 'name': sigToName[proof['sig']]})
-        )
+        let index = proof['index']
+        let claimed = await this.minterContract.claimed(index);
+
+        if (!claimed) {
+          this.claimables.push(
+            Object.assign(proof, {'account': account, 'name': sigToName[proof['sig']]})
+          )
+        }
       }
     }
   }
