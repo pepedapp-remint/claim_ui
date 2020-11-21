@@ -29,7 +29,28 @@
       </grid-layout>
     </div>
 
-    <p>Insert description</p>
+    <div id="desc">
+    <p>
+    Wrapped Pepes are a new ERC1155 collectible that is redeemable by holders of original <a href="https://www.pepedapp.io/">PepeDapp</a> collectibles.
+    </p>
+
+    <p>
+      A snapshot of the entire PepeDapp state was taken at Ethereum block 1107500 (Oct 17, 2020 6 PM UTC) and used
+      for this airdrop.
+    </p>
+
+    <p>
+      If you owned a PepeDapp card type at block 1107500, you'll be able to select it above. Click 'claim' to
+      claim all of your cards of that type. You can then sell those collectibles on your favorite NFT marketplace
+      (i.e. <a href="https://opensea.io/">OpenSea</a>).
+    </p>
+
+    <p>
+      All of the code (contracts, airdrop code, this UI) is <a href="https://github.com/wrapped-pepes">open source</a>.
+      The Redemption contract is <a href="https://etherscan.io/tx/0x962d8592ac9e7af8f00b91e89a3cdf8df4d8ca7e0de2fb44488b6852e639b07d">here</a> and
+      the new ERC1155 contract is <a href="https://etherscan.io/address/0xdaae81c0077e8917a2eb63bb66ef701ff4781bb0">here</a>.
+    </p>
+    </div>
   </div>
 </template>
 
@@ -125,5 +146,9 @@ export default {
 #claimer {
   margin: auto;
   width: 500px
+}
+#desc {
+  margin: auto;
+  width: 700px
 }
 </style>
