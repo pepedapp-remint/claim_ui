@@ -3,8 +3,9 @@
     <h1>Wrapped Pepes</h1>
 
     <v-select v-model="selected" label="name" :options="claimables"></v-select>
+    <button :disabled="selected == null" v-on:click="claim">Claim</button>
 
-    <h3>{{ selected }}</h3>
+    <!-- <p>{{ selected }}</p> -->
   </div>
 </template>
 
@@ -26,6 +27,11 @@ export default {
       claimables: [], // catch-all objects that contain all info necessary to claim/view option
 
       selected: null
+    }
+  },
+  methods: {
+    claim() {
+      console.log(this.selected)
     }
   },
   async mounted() {
