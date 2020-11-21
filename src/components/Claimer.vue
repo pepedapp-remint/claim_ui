@@ -13,16 +13,16 @@
           :i="claimGridLayout[0]['i']"
           :x=0
           :y=0
-          :w=5
+          :w=8
           :h=1>
           <v-select v-model="selected" label="name" :options="claimables"></v-select>
         </grid-item>
 
         <grid-item
           :i=1
-          :x=5
+          :x=8
           :y=0
-          :w=7
+          :w=4
           :h=1>
           <button :disabled="selected == null" v-on:click="claim">Claim</button>
         </grid-item>
