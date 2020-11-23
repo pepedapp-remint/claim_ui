@@ -15,7 +15,7 @@
           :y=0
           :w=8
           :h=1>
-          <v-select v-model="selected" label="name" :options="claimables"></v-select>
+          <v-select v-model="selected" label="selector" :options="claimables"></v-select>
         </grid-item>
 
         <grid-item
@@ -132,7 +132,10 @@ export default {
 
         if (!claimed) {
           this.claimables.push(
-            Object.assign(proof, {'account': account, 'name': sigToName[proof['sig']]})
+            Object.assign(
+              proof,
+              {'account': account, 'name': sigToName[proof['sig']], 'selector': `${sigToName[proof['sig']]} (${proof['count']})`}
+            )
           )
         }
       }
