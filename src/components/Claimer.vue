@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>Wrapped Pepes</h1>
+    <h1>PepeDapp Remint</h1>
 
     <div id="claimer">
       <grid-layout
@@ -31,7 +31,7 @@
 
     <div id="desc">
     <p>
-    Wrapped Pepes are a new ERC1155 collectible that is redeemable by holders of original <a href="https://www.pepedapp.io/">PepeDapp</a> collectibles.
+    PepeDapp Remint is a new ERC1155 collectible that is redeemable by holders of original <a href="https://www.pepedapp.io/">PepeDapp</a> collectibles.
     </p>
 
     <p>
@@ -46,7 +46,7 @@
     </p>
 
     <p>
-      All of the code (contracts, airdrop code, this UI) is <a href="https://github.com/wrapped-pepes">open source</a>.
+      All of the code (contracts, airdrop code, this UI) is <a href="https://github.com/pepedapp-remint">open source</a>.
       The Redemption contract is <a href="https://etherscan.io/tx/0x962d8592ac9e7af8f00b91e89a3cdf8df4d8ca7e0de2fb44488b6852e639b07d">here</a> and
       the new ERC1155 contract is <a href="https://etherscan.io/address/0xdaae81c0077e8917a2eb63bb66ef701ff4781bb0">here</a>.
     </p>
